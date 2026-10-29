@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <!-- Left Side -->
+        <div class="auth-info">
+
+            <div class="brand">
+                <i class="bi bi-wallet2"></i>
+                <span>Expense Tracker</span>
+            </div>
+
+            <div class="info-content">
+                <h1>Take control of your money.</h1>
+
+                <p>
+                    Track your expenses, manage your income,
+                    and understand your spending habits — all in one place.
+                </p>
+
+                <div class="feature">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Track daily expenses</span>
+                </div>
+
+                <div class="feature">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Manage your income</span>
+                </div>
+
+                <div class="feature">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>View spending reports</span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Right Side -->
+        <div class="auth-form-container">
+
+            <div class="auth-form">
+
+                <div class="mobile-brand">
+                    <i class="bi bi-wallet2"></i>
+                    Expense Tracker
+                </div>
+
+                <h2>Create Account</h2>
+
+                <p class="subtitle">
+                    Start managing your finances today
+                </p>
+
+                <form action="/register" method="POST">
+
+                    <!-- Name -->
+                    <div class="input-group">
+                        <label for="name">Full Name</label>
+
+                        <div class="input-box">
+                            <i class="bi bi-person"></i>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+
+                        <div class="input-box">
+                            <i class="bi bi-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="input-group">
+                        <label for="password">Password</label>
+
+                        <div class="input-box">
+                            <i class="bi bi-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <!-- Confirm Password -->
+                    <div class="input-group">
+                        <label for="confirmPassword">Confirm Password</label>
+
+                        <div class="input-box">
+                            <i class="bi bi-shield-check"></i>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm your password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="create-btn">
+                        Create Account
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+
+                </form>
+
+
+                <p class="login-link">
+                    Already have an account?
+                    <a href="/login">Sign in</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+```

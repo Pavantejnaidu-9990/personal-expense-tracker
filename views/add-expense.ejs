@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Expense - Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <i class="bi bi-wallet2"></i>
+                <span>Expense Tracker</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="/" class="nav-link">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="/add-expense" class="nav-link active">
+                    <i class="bi bi-wallet"></i>
+                    <span>Expenses</span>
+                </a>
+
+                <a href="#" class="nav-link">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>Income</span>
+                </a>
+
+                <a href="/reports" class="nav-link">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reports</span>
+            </a>
+            <a href="/budget" class="nav-link">
+                <i class="bi bi-wallet"></i>
+                <span>Budget</span>
+            </a>
+
+
+                <a href="/settings" class="nav-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+
+                <a href="/logout" class="nav-link">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header class="top-header">
+                <div>
+                    <h1>Add Expense 💸</h1>
+                    <p>Record your spending</p>
+                </div>
+            </header>
+
+            <div class="form-card">
+
+                <h2>New Expense</h2>
+
+                <form action="/add-expense" method="POST">
+
+                    <!-- Title -->
+                    <div class="input-group">
+                        <label for="title">Expense Title</label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="e.g. Lunch, Bus fare, Shopping"
+                            required
+                        >
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="input-group">
+                        <label for="amount">Amount (₹)</label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            placeholder="Enter amount"
+                            min="1"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <!-- Category -->
+                    <div class="input-group">
+                        <label for="category">Category</label>
+
+                        <select id="category" name="category" required>
+
+                            <option value="">Select Category</option>
+                            <option value="Food">🍔 Food</option>
+                            <option value="Transport">🚌 Transport</option>
+                            <option value="Shopping">🛍️ Shopping</option>
+                            <option value="Bills">💡 Bills</option>
+                            <option value="Entertainment">🎬 Entertainment</option>
+                            <option value="Health">💊 Health</option>
+                            <option value="Education">📚 Education</option>
+                            <option value="Other">📦 Other</option>
+
+                        </select>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="input-group">
+                        <label for="date">Date</label>
+
+                        <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="create-btn">
+                        <i class="bi bi-plus-circle"></i>
+                        Add Expense
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

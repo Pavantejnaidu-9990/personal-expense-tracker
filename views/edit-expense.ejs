@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Expense - Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="bi bi-wallet2"></i>
+            <span>Expense Tracker</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/expenses" class="nav-link active">
+                <i class="bi bi-arrow-down-circle"></i>
+                <span>Expenses</span>
+            </a>
+
+            <a href="#" class="nav-link">
+                <i class="bi bi-arrow-up-circle"></i>
+                <span>Income</span>
+            </a>
+
+            <a href="/reports" class="nav-link">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reports</span>
+            </a>
+            <a href="/budget" class="nav-link">
+                <i class="bi bi-wallet"></i>
+                <span>Budget</span>
+            </a>
+
+
+            <a href="/settings" class="nav-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+
+            <a href="/logout" class="nav-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="top-header">
+            <div>
+                <h1>Edit Expense ✏️</h1>
+                <p>Update your expense details</p>
+            </div>
+        </header>
+
+        <div class="form-card">
+
+            <h2>Edit Expense</h2>
+
+            <form action="/edit-expense/<%= expense._id %>" method="POST">
+
+                <!-- Title -->
+                <div class="input-group">
+                    <label for="title">Expense Title</label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="<%= expense.title %>"
+                        required
+                    >
+                </div>
+
+                <!-- Amount -->
+                <div class="input-group">
+                    <label for="amount">Amount (₹)</label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        value="<%= expense.amount %>"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <!-- Category -->
+                <div class="input-group">
+                    <label for="category">Category</label>
+
+                    <select id="category" name="category" required>
+
+                        <option value="Food"
+                            <%= expense.category === "Food" ? "selected" : "" %>>
+                            🍔 Food
+                        </option>
+
+                        <option value="Transport"
+                            <%= expense.category === "Transport" ? "selected" : "" %>>
+                            🚌 Transport
+                        </option>
+
+                        <option value="Shopping"
+                            <%= expense.category === "Shopping" ? "selected" : "" %>>
+                            🛍️ Shopping
+                        </option>
+
+                        <option value="Bills"
+                            <%= expense.category === "Bills" ? "selected" : "" %>>
+                            💡 Bills
+                        </option>
+
+                        <option value="Entertainment"
+                            <%= expense.category === "Entertainment" ? "selected" : "" %>>
+                            🎬 Entertainment
+                        </option>
+
+                        <option value="Health"
+                            <%= expense.category === "Health" ? "selected" : "" %>>
+                            💊 Health
+                        </option>
+
+                        <option value="Education"
+                            <%= expense.category === "Education" ? "selected" : "" %>>
+                            📚 Education
+                        </option>
+
+                        <option value="Other"
+                            <%= expense.category === "Other" ? "selected" : "" %>>
+                            📦 Other
+                        </option>
+
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="input-group">
+                    <label for="date">Date</label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        value="<%= new Date(expense.date).toISOString().split('T')[0] %>"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="create-btn">
+                    <i class="bi bi-check-circle"></i>
+                    Update Expense
+                </button>
+
+                <a href="/expenses" class="cancel-btn">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

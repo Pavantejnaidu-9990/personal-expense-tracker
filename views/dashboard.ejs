@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Expense Tracker</title>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="bi bi-wallet2"></i>
+            <span>Expense Tracker</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-link active">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/expenses" class="nav-link">
+                <i class="bi bi-arrow-down-circle"></i>
+                <span>Expenses</span>
+            </a>
+            <a href="/income" class="nav-link">
+                <i class="bi bi-arrow-up-circle"></i>
+                <span>Income</span>
+            </a>
+            <a href="/reports" class="nav-link">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reports</span>
+            </a>
+            <a href="/budget" class="nav-link">
+                <i class="bi bi-wallet"></i>
+                <span>Budget</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/settings" class="nav-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+            <a href="/logout" class="nav-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="top-header dashboard-header">
+            <div>
+                <h1>Welcome, <%= userName %>! 👋</h1>
+                <p>Here's your financial overview.</p>
+            </div>
+
+            <div class="profile">
+                <div class="profile-icon">
+                    <%= (userName || "U").charAt(0).toUpperCase() %>
+                </div>
+                <div>
+                    <strong><%= userName %></strong>
+                    <small>Personal Account</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="summary">
+            <div class="card">
+                <div class="card-icon income-icon">
+                    <i class="bi bi-arrow-up"></i>
+                </div>
+                <div>
+                    <p>Total Income</p>
+                    <h2>₹<%= totalIncome.toLocaleString("en-IN") %></h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon expense-icon">
+                    <i class="bi bi-arrow-down"></i>
+                </div>
+                <div>
+                    <p>Total Expenses</p>
+                    <h2>₹<%= totalExpenses.toLocaleString("en-IN") %></h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon balance-icon">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+                <div>
+                    <p>Current Balance</p>
+                    <h2>₹<%= balance.toLocaleString("en-IN") %></h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- CURRENT MONTH BUDGET OVERVIEW -->
+        <section class="dashboard-budget-card">
+            <div class="budget-overview-header">
+                <div>
+                    <h2>Budget Overview 💰</h2>
+                    <p>
+                        <%= new Date(currentMonth + "-01T00:00:00").toLocaleDateString("en-IN", { month: "long", year: "numeric" }) %>
+                    </p>
+                </div>
+                <a href="/budget" class="view-btn">Manage Budget</a>
+            </div>
+
+            <% if (budgetAmount > 0) { %>
+                <div class="budget-overview-stats">
+                    <div>
+                        <span>Budget</span>
+                        <strong>₹<%= budgetAmount.toLocaleString("en-IN") %></strong>
+                    </div>
+                    <div>
+                        <span>Spent</span>
+                        <strong>₹<%= budgetSpent.toLocaleString("en-IN") %></strong>
+                    </div>
+                    <div>
+                        <span>Remaining</span>
+                        <strong class="<%= budgetRemaining < 0 ? 'budget-danger' : 'budget-good' %>">
+                            ₹<%= Math.abs(budgetRemaining).toLocaleString("en-IN") %><%= budgetRemaining < 0 ? ' over' : '' %>
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="budget-overview-progress">
+                    <div class="budget-overview-progress-header">
+                        <span>Budget used</span>
+                        <strong><%= budgetPercentage.toFixed(0) %>%</strong>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: <%= budgetPercentage %>%"></div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="budget-empty">
+                    <i class="bi bi-piggy-bank"></i>
+                    <div>
+                        <h3>No budget set for this month</h3>
+                        <p>Set a monthly budget to track your spending progress.</p>
+                    </div>
+                    <a href="/budget" class="create-btn">Set Budget</a>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="dashboard-grid">
+
+            <div class="card recent-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Recent Transactions</h2>
+                        <p>Your latest money activity</p>
+                    </div>
+                    <a href="/reports" class="view-btn">View Reports</a>
+                </div>
+
+                <% if (recentTransactions.length === 0) { %>
+                    <div class="empty-transactions">
+                        <i class="bi bi-receipt"></i>
+                        <h3>No transactions yet</h3>
+                        <p>Add your first income or expense.</p>
+                    </div>
+                <% } else { %>
+                    <div class="transaction-list">
+                        <% recentTransactions.forEach(transaction => { %>
+                            <div class="transaction-item">
+                                <div class="transaction-icon <%= transaction.type === 'income' ? 'transaction-income' : 'transaction-expense' %>">
+                                    <i class="bi <%= transaction.type === 'income' ? 'bi-arrow-up-circle' : 'bi-arrow-down-circle' %>"></i>
+                                </div>
+
+                                <div class="transaction-details">
+                                    <h3><%= transaction.title %></h3>
+                                    <p>
+                                        <%= transaction.category %> •
+                                        <%= new Date(transaction.date).toLocaleDateString("en-IN") %>
+                                    </p>
+                                </div>
+
+                                <strong class="transaction-amount <%= transaction.type %>">
+                                    <%= transaction.type === "income" ? "+" : "-" %>
+                                    ₹<%= Number(transaction.amount).toLocaleString("en-IN") %>
+                                </strong>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="card quick-add">
+                <h2>Quick Add</h2>
+                <p>Record your money activity</p>
+
+                <a href="/add-expense" class="quick-link add-expense">
+                    <i class="bi bi-dash-circle"></i>
+                    Add Expense
+                </a>
+
+                <a href="/add-income" class="quick-link add-income">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Income
+                </a>
+
+                <a href="/budget" class="quick-link add-budget">
+                    <i class="bi bi-wallet"></i>
+                    Manage Budget
+                </a>
+            </div>
+
+        </section>
+    </main>
+</div>
+</body>
+</html>

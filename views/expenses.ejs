@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expenses - Expense Tracker</title>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="bi bi-wallet2"></i>
+            <span>Expense Tracker</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/expenses" class="nav-link active">
+                <i class="bi bi-arrow-down-circle"></i>
+                <span>Expenses</span>
+            </a>
+
+            <a href="/income" class="nav-link">
+                <i class="bi bi-arrow-up-circle"></i>
+                <span>Income</span>
+            </a>
+
+            <a href="/reports" class="nav-link">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reports</span>
+            </a>
+            <a href="/budget" class="nav-link">
+                <i class="bi bi-wallet"></i>
+                <span>Budget</span>
+            </a>
+
+
+            <a href="/settings" class="nav-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+
+            <a href="/logout" class="nav-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <header class="top-header">
+
+            <div>
+                <h1>My Expenses 💸</h1>
+                <p>View and manage your spending</p>
+            </div>
+
+            <a href="/add-expense" class="create-btn">
+                <i class="bi bi-plus-circle"></i>
+                Add Expense
+            </a>
+
+        </header>
+
+
+        <!-- ================= FILTERS ================= -->
+
+        <div class="expense-filters">
+
+            <form action="/expenses" method="GET">
+
+
+                <!-- SEARCH -->
+
+                <div class="filter-group">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search expenses..."
+                        value="<%= search %>"
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="filter-group">
+
+                    <i class="bi bi-tag"></i>
+
+                    <select name="category">
+
+                        <option value="all"
+                            <%= selectedCategory === "all" ? "selected" : "" %>>
+                            All Categories
+                        </option>
+
+                        <option value="Food"
+                            <%= selectedCategory === "Food" ? "selected" : "" %>>
+                            Food
+                        </option>
+
+                        <option value="Transport"
+                            <%= selectedCategory === "Transport" ? "selected" : "" %>>
+                            Transport
+                        </option>
+
+                        <option value="Shopping"
+                            <%= selectedCategory === "Shopping" ? "selected" : "" %>>
+                            Shopping
+                        </option>
+
+                        <option value="Bills"
+                            <%= selectedCategory === "Bills" ? "selected" : "" %>>
+                            Bills
+                        </option>
+
+                        <option value="Entertainment"
+                            <%= selectedCategory === "Entertainment" ? "selected" : "" %>>
+                            Entertainment
+                        </option>
+
+                        <option value="Health"
+                            <%= selectedCategory === "Health" ? "selected" : "" %>>
+                            Health
+                        </option>
+
+                        <option value="Education"
+                            <%= selectedCategory === "Education" ? "selected" : "" %>>
+                            Education
+                        </option>
+
+                        <option value="Other"
+                            <%= selectedCategory === "Other" ? "selected" : "" %>>
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- MONTH -->
+
+                <div class="filter-group">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    <input
+                        type="month"
+                        name="month"
+                        value="<%= selectedMonth %>"
+                    >
+
+                </div>
+
+
+                <!-- FILTER BUTTON -->
+
+                <button type="submit" class="filter-btn">
+
+                    <i class="bi bi-funnel"></i>
+
+                    Filter
+
+                </button>
+
+
+                <!-- CLEAR -->
+
+                <a href="/expenses" class="clear-filter-btn">
+
+                    <i class="bi bi-x-circle"></i>
+
+                    Clear
+
+                </a>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= EXPENSE LIST ================= -->
+
+        <div class="expense-card">
+
+            <div class="expense-card-header">
+
+                <h2>All Expenses</h2>
+
+                <span>
+                    <%= expenses.length %> transaction(s)
+                </span>
+
+            </div>
+
+
+            <% if (expenses.length === 0) { %>
+
+
+                <!-- EMPTY STATE -->
+
+                <div class="empty-expenses">
+
+                    <i class="bi bi-receipt"></i>
+
+                    <h3>No expenses found</h3>
+
+                    <p>
+                        Try changing your filters or add a new expense.
+                    </p>
+
+                    <a href="/add-expense" class="create-btn">
+
+                        <i class="bi bi-plus-circle"></i>
+
+                        Add Expense
+
+                    </a>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <!-- EXPENSE LIST -->
+
+                <div class="expense-list">
+
+                    <% expenses.forEach(expense => { %>
+
+                        <div class="expense-item">
+
+
+                            <!-- ICON -->
+
+                            <div class="expense-icon">
+
+                                <i class="bi bi-wallet2"></i>
+
+                            </div>
+
+
+                            <!-- DETAILS -->
+
+                            <div class="expense-details">
+
+                                <h3>
+                                    <%= expense.title %>
+                                </h3>
+
+                                <p>
+
+                                    <%= expense.category %>
+
+                                    •
+
+                                    <%= new Date(expense.date).toLocaleDateString("en-IN") %>
+
+                                </p>
+
+                            </div>
+
+
+                            <!-- AMOUNT -->
+
+                            <div class="expense-amount">
+
+                                - ₹<%= Number(expense.amount).toLocaleString("en-IN") %>
+
+                            </div>
+
+
+                            <!-- EDIT -->
+
+                            <a
+                                href="/edit-expense/<%= expense._id %>"
+                                class="edit-btn"
+                                title="Edit Expense"
+                            >
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <form
+                                action="/delete-expense/<%= expense._id %>"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this expense?');"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="delete-btn"
+                                    title="Delete Expense"
+                                >
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports - Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="bi bi-wallet2"></i>
+            <span>Expense Tracker</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/expenses" class="nav-link">
+                <i class="bi bi-arrow-down-circle"></i>
+                <span>Expenses</span>
+            </a>
+
+            <a href="/income" class="nav-link">
+                <i class="bi bi-arrow-up-circle"></i>
+                <span>Income</span>
+            </a>
+
+            <a href="/reports" class="nav-link active">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="/settings" class="nav-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+            <a href="/budget" class="nav-link">
+        <i class="bi bi-wallet"></i>
+        <span>Budget</span>
+    </a>
+            <a href="/logout" class="nav-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="top-header">
+
+    <div>
+        <h1>Reports 📊</h1>
+        <p>Understand your income and spending</p>
+    </div>
+
+    <form action="/reports" method="GET" class="month-filter">
+
+        <label for="month">
+            <i class="bi bi-calendar3"></i>
+        </label>
+
+        <input
+            type="month"
+            id="month"
+            name="month"
+            value="<%= selectedMonth %>"
+            onchange="this.form.submit()"
+        >
+
+    </form>
+
+</header>
+
+
+        <!-- SUMMARY CARDS -->
+
+        <div class="report-summary">
+
+            <div class="report-card">
+                <div class="report-icon income-icon-report">
+                    <i class="bi bi-arrow-up-circle"></i>
+                </div>
+
+                <div>
+                    <p>Total Income</p>
+                    <h2>
+                        ₹<%= totalIncome.toLocaleString("en-IN") %>
+                    </h2>
+                </div>
+            </div>
+
+
+            <div class="report-card">
+                <div class="report-icon expense-icon-report">
+                    <i class="bi bi-arrow-down-circle"></i>
+                </div>
+
+                <div>
+                    <p>Total Expenses</p>
+                    <h2>
+                        ₹<%= totalExpenses.toLocaleString("en-IN") %>
+                    </h2>
+                </div>
+            </div>
+
+
+            <div class="report-card">
+                <div class="report-icon balance-icon-report">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <p>Current Balance</p>
+                    <h2>
+                        ₹<%= balance.toLocaleString("en-IN") %>
+                    </h2>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- CHARTS -->
+
+        <div class="charts-grid">
+
+            <!-- INCOME VS EXPENSE -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+                    <h2>Income vs Expenses</h2>
+                    <span><%= selectedMonth %></span>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="incomeExpenseChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY CHART -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+                    <h2>Expenses by Category</h2>
+                    <span><%= selectedMonth %></span>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    // =========================
+    // INCOME VS EXPENSE CHART
+    // =========================
+
+    const incomeExpenseChart =
+        document.getElementById("incomeExpenseChart");
+
+    new Chart(incomeExpenseChart, {
+
+        type: "bar",
+
+        data: {
+
+            labels: ["Income", "Expenses"],
+
+            datasets: [{
+                label: "Amount (₹)",
+
+                data: [
+                    <%= totalIncome %>,
+                    <%= totalExpenses %>
+                ]
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+
+            }
+
+        }
+
+    });
+
+
+    // =========================
+    // EXPENSE CATEGORY CHART
+    // =========================
+
+    const categoryData =
+        <%- JSON.stringify(categoryTotals) %>;
+
+    const categoryLabels =
+        Object.keys(categoryData);
+
+    const categoryValues =
+        Object.values(categoryData);
+
+
+    const categoryChart =
+        document.getElementById("categoryChart");
+
+
+    new Chart(categoryChart, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: categoryLabels,
+
+            datasets: [{
+
+                data: categoryValues
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    position: "bottom"
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

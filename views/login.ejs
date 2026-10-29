@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <!-- Left Side -->
+        <div class="auth-info">
+
+            <div class="brand">
+                <i class="bi bi-wallet2"></i>
+                <span>Expense Tracker</span>
+            </div>
+
+            <div class="info-content">
+
+                <h1>Welcome back!</h1>
+
+                <p>
+                    Keep track of your expenses, manage your income,
+                    and stay in control of your finances.
+                </p>
+
+                <div class="feature">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Track your spending</span>
+                </div>
+
+                <div class="feature">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Manage your budget</span>
+                </div>
+
+                <div class="feature">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Understand your finances</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Right Side -->
+        <div class="auth-form-container">
+
+            <div class="auth-form">
+
+                <div class="mobile-brand">
+                    <i class="bi bi-wallet2"></i>
+                    Expense Tracker
+                </div>
+
+                <h2>Welcome Back</h2>
+
+                <p class="subtitle">
+                    Login to continue to your account
+                </p>
+
+
+                <!-- LOGIN FORM -->
+
+                <form action="/login" method="POST">
+
+                    <!-- Email -->
+                    <div class="input-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="bi bi-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="input-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="bi bi-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Remember + Forgot -->
+                    <div class="login-options">
+
+                        <label class="remember">
+                            <input type="checkbox" name="remember">
+                            Remember me
+                        </label>
+
+                        <a href="#">
+                            Forgot Password?
+                        </a>
+
+                    </div>
+
+
+                    <!-- Button -->
+                    <button type="submit" class="create-btn">
+
+                        Login
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+                <p class="login-link">
+
+                    Don't have an account?
+
+                    <a href="/register">
+                        Create Account
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

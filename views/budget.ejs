@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Budget - Expense Tracker</title>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet"
+        href="/css/style.css">
+
+</head>
+
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="bi bi-wallet2"></i>
+
+            <span>Expense Tracker</span>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+
+                <i class="bi bi-grid"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/expenses" class="nav-link">
+
+                <i class="bi bi-arrow-down-circle"></i>
+
+                <span>Expenses</span>
+
+            </a>
+
+
+            <a href="/income" class="nav-link">
+
+                <i class="bi bi-arrow-up-circle"></i>
+
+                <span>Income</span>
+
+            </a>
+
+
+            <a href="/reports" class="nav-link">
+
+                <i class="bi bi-bar-chart"></i>
+
+                <span>Reports</span>
+
+            </a>
+
+
+            <a href="/budget" class="nav-link active">
+
+                <i class="bi bi-wallet"></i>
+
+                <span>Budget</span>
+
+            </a>
+
+
+            <a href="/settings" class="nav-link">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+
+
+            <a href="/logout" class="nav-link">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+
+        <header class="top-header">
+
+            <div>
+
+                <h1>Monthly Budget 💰</h1>
+
+                <p>Set and track your monthly spending limit</p>
+
+            </div>
+
+
+            <form action="/budget"
+                method="GET"
+                class="month-filter">
+
+                <label for="month">
+
+                    <i class="bi bi-calendar3"></i>
+
+                </label>
+
+                <input
+                    type="month"
+                    id="month"
+                    name="month"
+                    value="<%= selectedMonth %>"
+                    onchange="this.form.submit()"
+                >
+
+            </form>
+
+        </header>
+
+
+        <!-- SET BUDGET -->
+
+        <div class="budget-card">
+
+            <div class="budget-card-header">
+
+                <div>
+
+                    <h2>Set Monthly Budget</h2>
+
+                    <p>
+                        Choose how much you want to spend this month.
+                    </p>
+
+                </div>
+
+                <i class="bi bi-piggy-bank"></i>
+
+            </div>
+
+
+            <form action="/budget"
+                method="POST"
+                class="budget-form">
+
+
+                <div class="budget-input-group">
+
+                    <label>Month</label>
+
+                    <input
+                        type="month"
+                        name="month"
+                        value="<%= selectedMonth %>"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="budget-input-group">
+
+                    <label>Budget Amount</label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="0"
+                        step="0.01"
+                        placeholder="Enter amount"
+                        value="<%= budgetAmount || '' %>"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit"
+                    class="create-btn">
+
+                    <i class="bi bi-check-circle"></i>
+
+                    Save Budget
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- BUDGET SUMMARY -->
+
+        <div class="budget-summary">
+
+
+            <div class="budget-stat">
+
+                <span>Monthly Budget</span>
+
+                <strong>
+                    ₹<%= budgetAmount.toLocaleString("en-IN") %>
+                </strong>
+
+            </div>
+
+
+            <div class="budget-stat">
+
+                <span>Total Spent</span>
+
+                <strong>
+                    ₹<%= totalExpenses.toLocaleString("en-IN") %>
+                </strong>
+
+            </div>
+
+
+            <div class="budget-stat">
+
+                <span>Remaining</span>
+
+                <strong class="<%= remaining < 0 ? 'over-budget' : '' %>">
+
+                    ₹<%= remaining.toLocaleString("en-IN") %>
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="budget-progress-card">
+
+            <div class="progress-header">
+
+                <h2>Budget Usage</h2>
+
+                <span>
+                    <%= percentage.toFixed(0) %>%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: <%= percentage %>%;">
+                </div>
+
+            </div>
+
+
+            <% if (remaining < 0) { %>
+
+                <p class="budget-warning">
+
+                    <i class="bi bi-exclamation-triangle"></i>
+
+                    You have exceeded your monthly budget.
+
+                </p>
+
+            <% } else if (budgetAmount > 0) { %>
+
+                <p class="budget-success">
+
+                    <i class="bi bi-check-circle"></i>
+
+                    You are within your monthly budget.
+
+                </p>
+
+            <% } else { %>
+
+                <p>
+
+                    Set a budget to start tracking your spending.
+
+                </p>
+
+            <% } %>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
