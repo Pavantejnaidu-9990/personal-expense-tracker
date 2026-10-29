@@ -3,6 +3,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const session = require("express-session");
+const MongoStore = require("connect-mongo").default;
 const bcrypt = require("bcrypt");
 const User = require("./models/User");
 const Budget = require("./models/Budget");
@@ -59,7 +60,20 @@ app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGO_URI,
+            collectionName: "sessions",
+            ttl: 14 * 24 * 60 * 60
+        }),
+
+        cookie: {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 14 * 24 * 60 * 60 * 1000
+        }
     })
 );
 
