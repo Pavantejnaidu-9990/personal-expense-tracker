@@ -61,13 +61,11 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI,
             collectionName: "sessions",
             ttl: 14 * 24 * 60 * 60
         }),
-
         cookie: {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -76,7 +74,6 @@ app.use(
         }
     })
 );
-
 
 // ===============================
 // MONGODB CONNECTION
