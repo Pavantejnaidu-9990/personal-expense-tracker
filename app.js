@@ -56,6 +56,10 @@ function isLoggedIn(req, res, next) {
 }
 // ===============================
 
+// Trust Render's reverse proxy for HTTPS cookies
+app.set("trust proxy", 1);
+
+// Session configuration
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -238,15 +242,22 @@ app.post("/login", async (req, res) => {
         }
 
         // Create session
-        req.session.userId = user._id;
-        req.session.userName = user.name;
+       // Create session
+req.session.userId = user._id.toString();
+req.session.userName = user.name;
 
-        console.log(
-            "User logged in successfully"
-        );
+console.log("User authenticated; saving session...");
 
-        // Go to dashboard
-        res.redirect("/");
+// Save the session before redirecting
+req.session.save((error) => {
+    if (error) {
+        console.error("Session save error:", error);
+        return res.status(500).send("Unable to create login session.");
+    }
+
+    console.log("Login session saved successfully");
+    return res.redirect("/");
+});
 
     } catch (error) {
 
